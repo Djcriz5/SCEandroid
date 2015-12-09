@@ -34,7 +34,7 @@ public class PrincipalCliente extends AppCompatActivity {
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
                 .getColor(R.color.colorPrimary), 1));
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
-                .getColor(R.color.wallet_hint_foreground_holo_dark), 2));
+                .getColor(R.color.colorAccent), 2));
         adaptadorPagina.addFragment(VentanaDeCompras.newInstance(Color.DKGRAY, 3, usuarioActual));
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
                 .getColor(R.color.colorPrimaryDark), 4));

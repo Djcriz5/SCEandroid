@@ -1,11 +1,10 @@
 apply plugin: 'com.android.application'
-
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion '23.0.2'
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.example.christopher.sceandroid"
+        applicationId "com.example.christopher.myapplication"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -17,13 +16,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        preDexLibraries = false
+    }
+    allprojects {
+        sourceCompatibility = 1.6
+        targetCompatibility = 1.6
+    }
 }
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.google.android.gms:play-services:8.3.0'
+    compile files('libs/db4o-8.0.276.16149-all-java5.jar')
+    compile files('libs/javax.mail.jar')
 }
