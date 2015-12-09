@@ -20,8 +20,7 @@ public class PaqueteDelDia extends Producto implements IContable,Serializable {
     public PaqueteDelDia() {
         super(8);
         platofuerte = new Preparado(9);
-        bebidaPaquete=new Bebida();
-        bebidaPaquete.bebidaRandom();
+        bebidaPaquete=new Bebida((int) (Math.random() *9)+1);
         guarnicion=setGuarnicion();
         precio=(platofuerte.getPrecio()+bebidaPaquete.getPrecio()+5);
         disponibilidad=setDisponibilidad();

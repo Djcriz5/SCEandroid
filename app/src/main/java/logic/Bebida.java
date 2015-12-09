@@ -2,9 +2,6 @@ package logic;
 
 import java.io.Serializable;
 
-/**
- * Created by Christopher on 03/12/2015.
- */
 public class Bebida extends Producto implements IContable,Serializable {
     /**
      *
@@ -114,23 +111,18 @@ public class Bebida extends Producto implements IContable,Serializable {
         indexBebida=indx;
         tipoDeBebida = setTipoDeBebida(indexBebida);
         precio = setPrecio(tipoDeBebida);
-        disponibilidad = setDisponibilidad();
 
     }
-    public void bebidaRandom(){
-        int seleccion = (int) (Math.random() *10)+1;
-        setBebida(seleccion);
+    public static Bebida bebidaRandom(){
+        int seleccion = (int) (Math.random() *9)+1;
+        return new Bebida(seleccion);
     }
     public double getPrecio() {
         return precio;
     }
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        if (disponibilidad) {
-            builder.append( "\n- " + tipoDeBebida + "  Precio: $" + precio );
-        } else {
-            builder.append("Bebida No Disponible");
-        }
+        builder.append( "\n- " + tipoDeBebida + "  Precio: $" + precio );
         return builder.toString();
 
     }

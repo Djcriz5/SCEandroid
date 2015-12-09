@@ -52,7 +52,6 @@ public class VentanaDeCompras extends Fragment {
     private String[] catalogoHelados = {"Helado de Yogurt $17.50", "Helado fresa $15.50", "Helado de Chocolate $12.50", "Paleta magnum Almendras $20.50", "Helado Vainilla  10.50", "Helado de yogurt Taro $18.50"};
     private String[] catalogoPreparados = {"Sandwich $14.50", "Molletes $12.50", "Tortas $17.50", "Ensalada de Atun $18.50", "Ensalada de pollo $21.0", "Pechuga Empanisada con ensalada $22.0", "Enchiladas $18.50", "Orden de tacos $14.50", "Guisado Del dia $11.0", "Sushi $15.0"};
     private String[] catalogoIExtra = {"jamon extra $7.50", "Pechuga de pavo $9.50", "queso extra $7.50", "Aguacate  $5.0", "Aderezos $3.75", "Guacamole $3.25", "Salsa BBq $4.55", "Wasabi $5.55"};
-    private String[] catalgoGuarniciones = {"Arroz", "Sopa", "spaguetti", "frijoles"};
 
 
     public static VentanaDeCompras newInstance(int color, int index, Cliente cliente) {
@@ -266,8 +265,8 @@ public class VentanaDeCompras extends Fragment {
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        usuarioActual.comprar(new PaqueteDelDia(id));
-                        crearDialogo(new PaqueteDelDia(id).toString()).show();
+                        usuarioActual.comprar(new PaqueteDelDia());
+                        crearDialogo(new PaqueteDelDia().toString()).show();
                     }
                 });
 
@@ -321,7 +320,8 @@ public class VentanaDeCompras extends Fragment {
         builder.setTitle("Selecciona un Bebida...").setItems(
                 catalogoBebidas, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        activarGuarnicion(which + 1);
+                        usuarioActual.comprar(new PaqueteDelDia(which+1));
+                        crearDialogo(new PaqueteDelDia(which+1).toString()).show();
                     }
                 }).setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
@@ -332,45 +332,7 @@ public class VentanaDeCompras extends Fragment {
         return builder.create();
     }
 
-    public Dialog activarGuarnicion(int indexPreparado) {
-        final AlertDialog.Builder builder =
-                new AlertDialog.Builder(getActivity());
-        final int indexP = indexPreparado;
-        builder.setMessage("¿Deseas elegir la Guarnicion?")
-                .setTitle("Seleccion de Guarnicion")
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        crearDialogoGuarnicion(indexP);
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        usuarioActual.comprar(new PaqueteDelDia(indexP));
-                        crearDialogo(new PaqueteDelDia(indexP).toString());
-                    }
-                });
 
-        return builder.create();
-
-    }
-
-    public Dialog crearDialogoGuarnicion(int indexPreparado) {
-        final int indexP = indexPreparado;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Selecciona una guarnicion...").setItems(
-                catalgoGuarniciones, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        usuarioActual.comprar(new PaqueteDelDia(indexP, which + 1));
-                        crearDialogo(new PaqueteDelDia(indexP, which + 1).toString());
-                    }
-                }).setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-
-            }
-        });
-
-        return builder.create();
-    }
 
     public Dialog confirmarCompra() {
 
