@@ -1,0 +1,85 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.example.christopher.sceandroid.VentanaDeCompras"
+    style="@style/AppTheme">
+
+
+    <ImageButton
+        android:id="@+id/botonGolosina"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_gravity="left|top"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/candyicon" />
+
+    <ImageButton
+        android:id="@+id/botonBebida"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/bebidaicon" />
+
+    <ImageButton
+        android:id="@+id/botonConfirmar"
+        android:layout_width="103dp"
+        android:layout_height="123dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="60dp"
+        android:background="@null"
+        android:scaleType="fitStart"
+        android:src="@drawable/shop" />
+
+    <ImageButton
+        android:id="@+id/botonLacteo"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_gravity="right|top"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/milkicon" />
+
+    <ImageButton
+        android:id="@+id/botonHelado"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_gravity="left|center_vertical"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@null"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/icecreamicon" />
+
+    <ImageButton
+        android:id="@+id/botonPaquete"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@null"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/paquetedeldia" />
+
+    <ImageButton
+        android:id="@+id/botonPreparado"
+        android:layout_width="111dp"
+        android:layout_height="111dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@null"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/preparadoicon" />
+
+</FrameLayout>
