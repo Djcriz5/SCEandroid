@@ -117,7 +117,6 @@ public class PrincipalCliente extends AppCompatActivity {
                 });
 
         return builder.create();
-
     }
 
 
