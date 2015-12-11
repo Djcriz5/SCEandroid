@@ -1,20 +1,26 @@
 package com.example.christopher.sceandroid;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import logic.Cliente;
+import logic.ControladorBaseDeDatos;
 
 public class PrincipalCliente extends AppCompatActivity {
     private ViewPager mViewPager;
     private Cliente usuarioActual;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal_cliente);
@@ -63,11 +69,58 @@ public class PrincipalCliente extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+           /* case R.id.action_search:de
+                showSnackBar("Comenzar a buscar...");
+                return true;*/
+            case R.id.action_settings:
+                dialogoSalir().show();
+                //crearDialogo("Se abren los ajustes").show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public Dialog crearDialogo(String mensaje) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Se a comprado el producto:")
+                .setIcon(
+                        getResources().getDrawable(R.drawable.dialogicon))
+                .setMessage(mensaje)
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        return builder.create();
+    }
+    public Dialog dialogoSalir() {
+        final AlertDialog.Builder builder =
+                new AlertDialog.Builder(this);
+        builder.setMessage("¿Realmente Deseas Salir ?")
+                .setTitle("Exit")
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(PrincipalCliente.this, PrincipalLogin.class);
+                        startActivity(i);
+                        ControladorBaseDeDatos.almacenarEnBaseD(usuarioActual);
+                        ControladorBaseDeDatos.cerrarConexion();
+                        PrincipalCliente.this.finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        return builder.create();
+
+    }
+
+
 
     public void onBackPressed() {
         // Return to previous page when we press back button

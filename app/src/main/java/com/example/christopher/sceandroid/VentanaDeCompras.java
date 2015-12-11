@@ -3,11 +3,12 @@ package com.example.christopher.sceandroid;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 
 import logic.Bebida;
 import logic.Cliente;
+import logic.ControladorBaseDeDatos;
 import logic.Golosina;
 import logic.Helado;
 import logic.Lacteo;
@@ -33,7 +35,9 @@ public class VentanaDeCompras extends Fragment {
      */
     private static final String INDEX = "index";
     private static final String USUARIO = "usuarioActual";
-
+    private static final String BaseDeDatos = "baseDeDatosControler";
+    String[] to = {"proyectoscepoo@gmail.com"};
+    String[] cc = {""};
     private int color;
     private int index;
     private ImageButton heladob;
@@ -44,7 +48,6 @@ public class VentanaDeCompras extends Fragment {
     private ImageButton confirmarPedido;
     private ImageButton paqueteB;
     private Cliente usuarioActual = new Cliente();
-
     //catalogos
     private String[] catalogoDulces = {"Paleta $2.50", "Gomitas $5.50", "KitKat $8.50", "Pasitas $6.0", "gansito $10.0", "Carlos XV $6.5", "lunetas $7.0"};
     private String[] catalogoBebidas = {"coca cola $9.50", "Sprite $7.50", "Nestea $10.0", "Manzanita $7.50", "Fanta $8.50", "Boing Guayaba $7.50", "Boing uva $7.50", "Boing manzana $7.50", "Agua embotellada $6.50"};
@@ -53,12 +56,9 @@ public class VentanaDeCompras extends Fragment {
     private String[] catalogoPreparados = {"Sandwich $14.50", "Molletes $12.50", "Tortas $17.50", "Ensalada de Atun $18.50", "Ensalada de pollo $21.0", "Pechuga Empanisada con ensalada $22.0", "Enchiladas $18.50", "Orden de tacos $14.50", "Guisado Del dia $11.0", "Sushi $15.0"};
     private String[] catalogoIExtra = {"jamon extra $7.50", "Pechuga de pavo $9.50", "queso extra $7.50", "Aguacate  $5.0", "Aderezos $3.75", "Guacamole $3.25", "Salsa BBq $4.55", "Wasabi $5.55"};
 
-
     public static VentanaDeCompras newInstance(int color, int index, Cliente cliente) {
-
         // Instantiate a new fragment
         VentanaDeCompras fragment = new VentanaDeCompras();
-
         // Save the parameters
         Bundle bundle = new Bundle();
         bundle.putInt(BACKGROUND_COLOR, color);
@@ -66,13 +66,11 @@ public class VentanaDeCompras extends Fragment {
         bundle.putSerializable(USUARIO, cliente);
         fragment.setArguments(bundle);
         return fragment;
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         // Carga los atributos desde los parametros del bundle, si estos no existen en
         // el bundle entonces ejecuta uno definido
         // por default ejemplo no existe entonces : carga este objeto
@@ -100,18 +98,22 @@ public class VentanaDeCompras extends Fragment {
         golosinasb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                golosinasb.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.alpha));
+
                 crearDialogoGolosina().show();
             }
         });
         bebidab = (ImageButton) rootView.findViewById(R.id.botonBebida);
         bebidab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                bebidab.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.alpha));
                 crearDialogoBebida().show();
             }
         });
         lacteob = (ImageButton) rootView.findViewById(R.id.botonLacteo);
         lacteob.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                lacteob.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.alpha));
                 crearDialogoLacteo().show();
             }
         });
@@ -127,12 +129,15 @@ public class VentanaDeCompras extends Fragment {
         preparadoB = (ImageButton) rootView.findViewById(R.id.botonPreparado);
         preparadoB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                preparadoB.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.alpha));
                 crearDialogoPreparado().show();
             }
         });
         paqueteB = (ImageButton) rootView.findViewById(R.id.botonPaquete);
         paqueteB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                paqueteB.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.alpha));
+
                 activarBebidaExtra().show();
             }
         });
@@ -140,10 +145,11 @@ public class VentanaDeCompras extends Fragment {
         confirmarPedido = (ImageButton) rootView.findViewById(R.id.botonConfirmar);
         confirmarPedido.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                confirmarPedido.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.alpha));
+
                 confirmarCompra().show();
             }
         });
-
 
 
         return rootView;
@@ -157,7 +163,7 @@ public class VentanaDeCompras extends Fragment {
 
         builder.setTitle("Se a comprado el producto:")
                 .setIcon(
-                        getResources().getDrawable(R.drawable.check))
+                        getResources().getDrawable(R.drawable.dialogicon))
                 .setMessage(mensaje)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -320,8 +326,8 @@ public class VentanaDeCompras extends Fragment {
         builder.setTitle("Selecciona un Bebida...").setItems(
                 catalogoBebidas, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        usuarioActual.comprar(new PaqueteDelDia(which+1));
-                        crearDialogo(new PaqueteDelDia(which+1).toString()).show();
+                        usuarioActual.comprar(new PaqueteDelDia(which + 1));
+                        crearDialogo(new PaqueteDelDia(which + 1).toString()).show();
                     }
                 }).setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
@@ -333,7 +339,6 @@ public class VentanaDeCompras extends Fragment {
     }
 
 
-
     public Dialog confirmarCompra() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -342,7 +347,18 @@ public class VentanaDeCompras extends Fragment {
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-
+                                try {
+                                    ControladorBaseDeDatos.almacenarEnBaseD(usuarioActual);
+                                    Thread hiloemail = new Thread() {
+                                        @Override
+                                        public void run() {
+                                            enviar(to, cc, "Compras", hacerMensaje(usuarioActual));
+                                        }
+                                    };
+                                    hiloemail.run();
+                                } catch (Exception e) {
+                                    crearDialogo("Ocurrio un error").show();
+                                }
                             }
                         })
                 .setNegativeButton(android.R.string.cancel,
@@ -353,5 +369,25 @@ public class VentanaDeCompras extends Fragment {
                         });
 
         return builder.create();
+    }
+
+    private void enviar(String[] to, String[] cc, String asunto, String mensaje) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        //String[] to = direccionesEmail;
+        //String[] cc = copias;
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
+        emailIntent.putExtra(Intent.EXTRA_CC, cc);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, asunto);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, mensaje);
+        emailIntent.setType("message/rfc822");
+        startActivity(Intent.createChooser(emailIntent, "Email "));
+        crearDialogo("Registro exitoso").show();
+    }
+
+    public String hacerMensaje(Cliente uncliente) {
+        String mensaje = new String();
+        mensaje = "El Cliente:  " + uncliente.getNombre() + "\nA pedido" + uncliente;
+        return mensaje;
     }
 }
