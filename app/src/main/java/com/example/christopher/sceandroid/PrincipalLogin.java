@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -18,8 +19,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 import logic.Cliente;
 import logic.ControladorBaseDeDatos;
@@ -33,11 +32,12 @@ public class PrincipalLogin extends AppCompatActivity {
      * Id to identity READ_CONTACTS permission request.
      */    //private static final int REQUEST_READ_CONTACTS = 0;
 
-    private Cliente usuarioActual=null;
+    private Cliente usuarioActual;
     private ControladorBaseDeDatos baseDeDatosControler;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mCreditCardView;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -46,7 +46,7 @@ public class PrincipalLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal_login);
         try {
-            baseDeDatosControler=new ControladorBaseDeDatos(PrincipalLogin.this);
+            baseDeDatosControler = new ControladorBaseDeDatos(PrincipalLogin.this);
             crearDialogo("Se cargo correctamente la base de datos").show();
         } catch (Exception e) {
             crearDialogo("error al cargar base de datos").show();
@@ -55,6 +55,8 @@ public class PrincipalLogin extends AppCompatActivity {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         //populateAutoComplete();
         mPasswordView = (EditText) findViewById(R.id.password);
+
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -101,14 +103,6 @@ public class PrincipalLogin extends AppCompatActivity {
     }
 
     //comprueba que sea un email valido
-    private boolean isEmailValid(String email) {
-        return email.length() > 2;
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
 
     /**
      * Shows the progress UI and hides the login form.
@@ -164,7 +158,7 @@ public class PrincipalLogin extends AppCompatActivity {
                     usuarioActual = buscarPorNombre(nom);
                     Intent i = new Intent(this, PrincipalCliente.class);
                     i.putExtra("Cliente", usuarioActual);
-                    i.putExtra("ContextoDB",baseDeDatosControler.getContextdb().getDir("data", 0));
+                    i.putExtra("ContextoDB", baseDeDatosControler.getContextdb().getDir("data", 0));
                     startActivity(i);
                 } else {
                     mPasswordView.setError("Correo o Contraseña invalido");
@@ -177,22 +171,28 @@ public class PrincipalLogin extends AppCompatActivity {
 
     public void addCliente(String nom, String pass) {
         try {
-            ControladorBaseDeDatos.almacenarEnBaseD(new Cliente(nom, pass));
-            crearDialogo("Registro exitoso").show();
+            crearDialogoTargeta(nom, pass).show();
+            // ControladorBaseDeDatos.almacenarEnBaseD(new Cliente(nom, pass));
+            //crearDialogo("Registro exitoso").show();
         } catch (Exception e) {
-            crearDialogo("error al alamcenar cliente en base de datos").show();
+            crearDialogo("error al almacenar cliente en base de datos").show();
         }
     }
 
     public Cliente buscarPorNombre(String nombreBuscado) {
         Cliente buscado = null;
-        for (Cliente c : ControladorBaseDeDatos.consultarBaseDeDatos()) {
-            if (c.getNombre().equals(nombreBuscado)) {
-                buscado = c;
+        try {
+            for (Cliente c : ControladorBaseDeDatos.consultarBaseDeDatos()) {
+                if (c.getNombre().equals(nombreBuscado)) {
+                    buscado = c;
+                }
             }
+        } catch (Exception e) {
+            crearDialogo("error al buscar").show();
         }
         return buscado;
     }
+
     public Dialog crearDialogo(String mensaje) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Informacion:")
@@ -207,5 +207,40 @@ public class PrincipalLogin extends AppCompatActivity {
 
         return builder.create();
     }
+
+    public Dialog crearDialogoTargeta(String n, String p) {
+        // Use the Builder class for convenient dialog construction
+        final String nom = n;
+        final String pass = p;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        // TextView introductorCon= (TextView)findViewById(R.id.introductorTargeta);
+        // final Long ntar=Long.parseLong(introductorCon.getText().toString());
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        View v = inflater.inflate(R.layout.dialog_signin, null);
+        final TextView reposTargeta = (TextView) v.findViewById(R.id.introductorTargeta);
+        builder.setView(v)
+                // Add action buttons
+                .setPositiveButton(android.R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Long numTargeta=Long.parseLong(reposTargeta.getText().toString());
+                                ControladorBaseDeDatos.almacenarEnBaseD(new Cliente(nom, pass, numTargeta, 800));
+                                crearDialogo("Registro exitoso").show();
+                            }
+                        })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ControladorBaseDeDatos.almacenarEnBaseD(new Cliente(nom, pass));
+                        crearDialogo("Registro exitoso").show();
+                    }
+                }).setTitle("¿Desea ingresar Targeta?");
+
+        // Create the AlertDialog object and return it
+        return builder.create();
+    }
+
 }
 
