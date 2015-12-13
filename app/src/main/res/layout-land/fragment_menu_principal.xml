@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.christopher.sceandroid.MenuPrincipalFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageButton
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:id="@+id/VentanaDeCompras"
+        android:src="@drawable/shop"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/InformacionAplicacion"
+        android:layout_marginTop="38dp" />
+
+    <ImageButton
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="@null"
+        android:id="@+id/InformacionAplicacion"
+        android:src="@drawable/usericon"
+        android:scaleType="fitCenter"
+        android:layout_marginStart="135dp"
+        android:layout_marginBottom="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="@null"
+        android:id="@+id/InformacionCliente"
+        android:src="@drawable/historial"
+        android:scaleType="fitCenter"
+        android:layout_alignTop="@+id/VentanaDeCompras"
+        android:layout_toEndOf="@+id/VentanaDeCompras"
+        android:layout_marginStart="133dp" />
+
+    <ImageButton
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="@null"
+        android:id="@+id/QuejasySugerencias"
+        android:src="@drawable/quejas"
+        android:scaleType="fitCenter"
+        android:layout_alignTop="@+id/InformacionAplicacion"
+        android:layout_alignStart="@+id/InformacionCliente" />
+</RelativeLayout>

@@ -1,14 +1,21 @@
 package com.example.christopher.sceandroid;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-public class AdaptadorDEPagina extends FragmentPagerAdapter {
+import android.support.v4.view.ViewPager;
+import android.view.animation.Animation;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AdaptadorDEPagina extends FragmentPagerAdapter implements Serializable{
 
     // List of fragments which are going to set in the view pager widget
     List<Fragment> fragments;
+    private static final long serialVersionUID = -923983291075894458L;
+    ViewPager pageViewer;
 
     /**
      * Constructor
@@ -17,9 +24,10 @@ public class AdaptadorDEPagina extends FragmentPagerAdapter {
      *            interface for interacting with Fragment objects inside of an
      *            Activity
      */
-    public AdaptadorDEPagina(FragmentManager fm) {
+    public AdaptadorDEPagina(FragmentManager fm,ViewPager wP) {
         super(fm);
         this.fragments = new ArrayList<Fragment>();
+        this.pageViewer=wP;
     }
 
     /**
@@ -40,6 +48,10 @@ public class AdaptadorDEPagina extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return this.fragments.size();
+    }
+    public void cambiarVista(int i,Animation at){
+        pageViewer.setAnimation(at);
+        pageViewer.setCurrentItem(i+1);
     }
 
 }

@@ -14,12 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.io.Serializable;
+
 import logic.Cliente;
 import logic.ControladorBaseDeDatos;
 
-public class PrincipalCliente extends AppCompatActivity {
+public class PrincipalCliente extends AppCompatActivity implements Serializable {
+    private static final long serialVersionUID = -1134534360775894458L;
     private ViewPager mViewPager;
     private Cliente usuarioActual;
+    private AdaptadorDEPagina adaptadorPagina;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +37,11 @@ public class PrincipalCliente extends AppCompatActivity {
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mViewPager = (ViewPager) findViewById(R.id.container);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        AdaptadorDEPagina adaptadorPagina = new AdaptadorDEPagina(getSupportFragmentManager());
-        adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
-                .getColor(R.color.colorPrimaryDark), 0));
+        adaptadorPagina = new AdaptadorDEPagina(getSupportFragmentManager(),mViewPager);
+        adaptadorPagina.addFragment(MenuPrincipalFragment.newInstance(Color.DKGRAY, 0, this, adaptadorPagina));
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
                 .getColor(R.color.colorPrimary), 1));
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
@@ -45,7 +50,6 @@ public class PrincipalCliente extends AppCompatActivity {
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
                 .getColor(R.color.colorPrimaryDark), 4));
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(adaptadorPagina);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +128,9 @@ public class PrincipalCliente extends AppCompatActivity {
     public void onBackPressed() {
         // Return to previous page when we press back button
         if (this.mViewPager.getCurrentItem() == 0)
-            super.onBackPressed();
+           super.onBackPressed();
         else
             this.mViewPager.setCurrentItem(this.mViewPager.getCurrentItem() - 1);
     }
+
 }

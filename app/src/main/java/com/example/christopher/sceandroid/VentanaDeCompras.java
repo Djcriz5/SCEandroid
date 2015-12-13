@@ -1,5 +1,4 @@
 package com.example.christopher.sceandroid;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -349,13 +348,14 @@ public class VentanaDeCompras extends Fragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 try {
                                     ControladorBaseDeDatos.almacenarEnBaseD(usuarioActual);
-                                    Thread hiloemail = new Thread() {
+                                    enviar(to, cc, "Compras", hacerMensaje(usuarioActual));
+                                    /*Thread hiloemail = new Thread() {
                                         @Override
                                         public void run() {
                                             enviar(to, cc, "Compras", hacerMensaje(usuarioActual));
                                         }
                                     };
-                                    hiloemail.run();
+                                    hiloemail.run();*/
                                 } catch (Exception e) {
                                     crearDialogo("Ocurrio un error").show();
                                 }

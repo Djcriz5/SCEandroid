@@ -223,15 +223,21 @@ public class PrincipalLogin extends AppCompatActivity {
         final TextView reposTargeta = (TextView) v.findViewById(R.id.introductorTargeta);
         builder.setView(v)
                 // Add action buttons
-                .setPositiveButton(android.R.string.yes,
+                .setPositiveButton(R.string.Si,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                try {
                                 Long numTargeta=Long.parseLong(reposTargeta.getText().toString());
                                 ControladorBaseDeDatos.almacenarEnBaseD(new Cliente(nom, pass, numTargeta, 800));
-                                crearDialogo("Registro exitoso").show();
+                                    crearDialogo("Registro exitoso").show();
+                                } catch (Exception e) {
+                                    Dialog et = crearDialogoTargeta(nom, pass);
+                                    et.setTitle("Targeta Invalida ingrese de nuevo");
+                                    et.show();
+                                }
                             }
                         })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.Ahora_no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         ControladorBaseDeDatos.almacenarEnBaseD(new Cliente(nom, pass));
                         crearDialogo("Registro exitoso").show();
