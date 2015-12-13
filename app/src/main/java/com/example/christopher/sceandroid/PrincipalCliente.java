@@ -40,8 +40,8 @@ public class PrincipalCliente extends AppCompatActivity implements Serializable 
         mViewPager = (ViewPager) findViewById(R.id.container);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        adaptadorPagina = new AdaptadorDEPagina(getSupportFragmentManager(),mViewPager);
-        adaptadorPagina.addFragment(MenuPrincipalFragment.newInstance(Color.DKGRAY, 0, this, adaptadorPagina));
+        adaptadorPagina = new AdaptadorDEPagina(getSupportFragmentManager());
+        adaptadorPagina.addFragment(MenuPrincipalFragment.newInstance(Color.DKGRAY, 0));
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
                 .getColor(R.color.colorPrimary), 1));
         adaptadorPagina.addFragment(ScreenSlidePageFragment.newInstance(getResources()
@@ -51,6 +51,7 @@ public class PrincipalCliente extends AppCompatActivity implements Serializable 
                 .getColor(R.color.colorPrimaryDark), 4));
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(adaptadorPagina);
+        CambiadorDePagina.setPageViewer(mViewPager);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,4 +134,7 @@ public class PrincipalCliente extends AppCompatActivity implements Serializable 
             this.mViewPager.setCurrentItem(this.mViewPager.getCurrentItem() - 1);
     }
 
+    public AdaptadorDEPagina getAdapter() {
+        return adaptadorPagina;
+    }
 }

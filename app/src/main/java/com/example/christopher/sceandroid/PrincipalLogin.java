@@ -160,6 +160,7 @@ public class PrincipalLogin extends AppCompatActivity {
                     i.putExtra("Cliente", usuarioActual);
                     i.putExtra("ContextoDB", baseDeDatosControler.getContextdb().getDir("data", 0));
                     startActivity(i);
+                    this.finish();
                 } else {
                     mPasswordView.setError("Correo o Contraseña invalido");
                 }

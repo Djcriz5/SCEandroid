@@ -11,12 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdaptadorDEPagina extends FragmentPagerAdapter implements Serializable{
-
     // List of fragments which are going to set in the view pager widget
     List<Fragment> fragments;
-    private static final long serialVersionUID = -923983291075894458L;
-    ViewPager pageViewer;
-
+    private static final long serialVersionUID = -1445L;
     /**
      * Constructor
      *
@@ -24,10 +21,9 @@ public class AdaptadorDEPagina extends FragmentPagerAdapter implements Serializa
      *            interface for interacting with Fragment objects inside of an
      *            Activity
      */
-    public AdaptadorDEPagina(FragmentManager fm,ViewPager wP) {
+    public AdaptadorDEPagina(FragmentManager fm) {
         super(fm);
         this.fragments = new ArrayList<Fragment>();
-        this.pageViewer=wP;
     }
 
     /**
@@ -49,9 +45,4 @@ public class AdaptadorDEPagina extends FragmentPagerAdapter implements Serializa
     public int getCount() {
         return this.fragments.size();
     }
-    public void cambiarVista(int i,Animation at){
-        pageViewer.setAnimation(at);
-        pageViewer.setCurrentItem(i+1);
-    }
-
 }

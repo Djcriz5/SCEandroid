@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
-public class MenuPrincipalFragment extends Fragment {
+import java.io.Serializable;
+
+public class MenuPrincipalFragment extends Fragment implements Serializable {
     /**
      * Key to insert the background color into the mapping of a Bundle.
      */
+    private static final long serialVersionUID = -1L;
     private static final String BACKGROUND_COLOR = "color";
     private static final String INDEX = "index";
     private static final String PRINCIPALP = "principalp";
-    private static final String ADAPTADOR = "adapterP";
-    PrincipalCliente principalp;
-    AdaptadorDEPagina adapterP;
     private int color;
     private int index;
     private ImageButton botonInfoCliente;
@@ -27,15 +27,13 @@ public class MenuPrincipalFragment extends Fragment {
     private ImageButton botonVentanaCompras;
 
     //catalogos
-    public static MenuPrincipalFragment newInstance(int color, int index, PrincipalCliente principalp, AdaptadorDEPagina adapterP) {
+    public static MenuPrincipalFragment newInstance(int color, int index) {
         // Instantiate a new fragment
         MenuPrincipalFragment fragment = new MenuPrincipalFragment();
         // Save the parameters
         Bundle bundle = new Bundle();
         bundle.putInt(BACKGROUND_COLOR, color);
         bundle.putInt(INDEX, index);
-        bundle.putSerializable(PRINCIPALP, principalp);
-        bundle.putSerializable(ADAPTADOR, adapterP);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -50,9 +48,6 @@ public class MenuPrincipalFragment extends Fragment {
                 BACKGROUND_COLOR) : Color.GRAY;
         this.index = (getArguments() != null) ? getArguments().getInt(INDEX)
                 : -1;
-        this.principalp = (getArguments() != null) ? (PrincipalCliente) getArguments().getSerializable(PRINCIPALP) : null;
-        this.adapterP = (getArguments() != null) ? (AdaptadorDEPagina) getArguments().getSerializable(ADAPTADOR) : null;
-
     }
 
     @Override
@@ -91,8 +86,7 @@ public class MenuPrincipalFragment extends Fragment {
         botonVentanaCompras.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 botonVentanaCompras.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.alpha));
-                adapterP.cambiarVista(2,AnimationUtils.loadAnimation(getActivity(), R.anim.alphaf));
-
+                CambiadorDePagina.cambiarPagina(2,AnimationUtils.loadAnimation(getActivity(), R.anim.alphaf));
             }
         });
 

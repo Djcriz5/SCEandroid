@@ -347,7 +347,7 @@ public class VentanaDeCompras extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 try {
-                                    ControladorBaseDeDatos.almacenarEnBaseD(usuarioActual);
+                                   // ControladorBaseDeDatos.almacenarEnBaseD(usuarioActual);
                                     enviar(to, cc, "Compras", hacerMensaje(usuarioActual));
                                     /*Thread hiloemail = new Thread() {
                                         @Override
